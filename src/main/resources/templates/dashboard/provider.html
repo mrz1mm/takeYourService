@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout('Dashboard Fornitore', ~{::section})}"
+>
+  <body>
+    <section>
+      <div class="container">
+        <!-- Intestazione pagina -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>
+            <i class="fas fa-tachometer-alt me-2"></i>
+            Dashboard Fornitore
+          </h2>
+          <div>
+            <a th:href="@{/availability/calendar}" class="btn btn-primary">
+              <i class="fas fa-calendar-alt me-2"></i>Gestisci Disponibilità
+            </a>
+          </div>
+        </div>
+
+        <!-- Riepilogo -->
+        <div class="row g-4 mb-5">
+          <div class="col-md-3">
+            <div class="card border-primary h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rounded-circle bg-primary text-white p-3 me-3">
+                    <i class="fas fa-calendar-check"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-0">Oggi</h5>
+                  </div>
+                </div>
+                <p
+                  class="display-4 fw-bold"
+                  th:text="${todayBookings != null ? todayBookings.size() : 0}"
+                >
+                  3
+                </p>
+                <p class="card-text text-muted mb-0">Appuntamenti di oggi</p>
+                <a
+                  th:href="@{/bookings?tab=today}"
+                  class="btn btn-sm btn-outline-primary mt-3"
+                  >Vedi Dettagli</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card border-warning h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rounded-circle bg-warning text-white p-3 me-3">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-0">In Attesa</h5>
+                  </div>
+                </div>
+                <p
+                  class="display-4 fw-bold"
+                  th:text="${pendingBookings != null ? pendingBookings.size() : 0}"
+                >
+                  2
+                </p>
+                <p class="card-text text-muted mb-0">
+                  Prenotazioni da confermare
+                </p>
+                <a
+                  th:href="@{/bookings?tab=pending}"
+                  class="btn btn-sm btn-outline-warning mt-3"
+                  >Vedi Dettagli</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card border-success h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rounded-circle bg-success text-white p-3 me-3">
+                    <i class="fas fa-check-double"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-0">Prossimi</h5>
+                  </div>
+                </div>
+                <p
+                  class="display-4 fw-bold"
+                  th:text="${upcomingBookings != null ? upcomingBookings.size() : 0}"
+                >
+                  5
+                </p>
+                <p class="card-text text-muted mb-0">Appuntamenti futuri</p>
+                <a
+                  th:href="@{/bookings?tab=upcoming}"
+                  class="btn btn-sm btn-outline-success mt-3"
+                  >Vedi Dettagli</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="card border-info h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rounded-circle bg-info text-white p-3 me-3">
+                    <i class="fas fa-calendar"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-0">Slot</h5>
+                  </div>
+                </div>
+                <p
+                  class="display-4 fw-bold"
+                  th:text="${availableSlots != null ? availableSlots.size() : 0}"
+                >
+                  12
+                </p>
+                <p class="card-text text-muted mb-0">Slot di disponibilità</p>
+                <a
+                  th:href="@{/availability/calendar}"
+                  class="btn btn-sm btn-outline-info mt-3"
+                  >Gestisci</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prenotazioni di oggi -->
+        <div class="card mb-5">
+          <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">
+                <i class="fas fa-calendar-day me-2"></i>
+                Appuntamenti di Oggi
+              </h5>
+              <span
+                class="badge bg-light text-primary"
+                th:text="${todayBookings != null ? todayBookings.size() : 0} + ' appuntamenti'"
+                >3 appuntamenti</span
+              >
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div
+              class="list-group list-group-flush"
+              th:if="${todayBookings != null && !todayBookings.isEmpty()}"
+            >
+              <div class="list-group-item" th:each="booking : ${todayBookings}">
+                <div class="row align-items-center">
+                  <div class="col-md-2">
+                    <span
+                      class="badge bg-primary"
+                      th:text="${booking.getFormattedStartTime()}"
+                      >14:30</span
+                    >
+                    -
+                    <span
+                      class="badge bg-light text-dark"
+                      th:text="${booking.getFormattedEndTime()}"
+                      >15:30</span
+                    >
+                  </div>
+                  <div class="col-md-3">
+                    <h6 class="mb-0" th:text="${booking.service.name}">
+                      Consulenza Web Marketing
+                    </h6>
+                  </div>
+                  <div class="col-md-3">
+                    <p
+                      class="mb-0"
+                      th:text="${booking.client.firstName + ' ' + booking.client.lastName}"
+                    >
+                      <i class="fas fa-user me-2"></i>
+                      Luigi Verdi
+                    </p>
+                  </div>
+                  <div class="col-md-2">
+                    <span
+                      th:class="${
+                                        booking.status.name() == 'PENDING' ? 'badge bg-warning' : 
+                                        booking.status.name() == 'CONFIRMED' ? 'badge bg-success' : 
+                                        booking.status.name() == 'COMPLETED' ? 'badge bg-info' :
+                                        'badge bg-secondary'
+                                    }"
+                      th:text="${booking.status}"
+                      >CONFERMATO</span
+                    >
+                  </div>
+                  <div class="col-md-2 text-end">
+                    <a
+                      th:href="@{/bookings/{id}(id=${booking.id})}"
+                      class="btn btn-sm btn-primary"
+                    >
+                      <i class="fas fa-info-circle"></i>
+                    </a>
+
+                    <span th:if="${booking.status.name() == 'CONFIRMED'}">
+                      <button
+                        class="btn btn-sm btn-success"
+                        data-bs-toggle="modal"
+                        th:data-bs-target="'#completeModal' + ${booking.id}"
+                      >
+                        <i class="fas fa-check"></i>
+                      </button>
+
+                      <!-- Modal per Completare -->
+                      <div
+                        class="modal fade"
+                        th:id="'completeModal' + ${booking.id}"
+                        tabindex="-1"
+                      >
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">
+                                Conferma Completamento
+                              </h5>
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                              ></button>
+                            </div>
+                            <div class="modal-body">
+                              <p>
+                                Confermi di aver completato questo servizio?
+                              </p>
+                              <p
+                                class="fw-bold"
+                                th:text="${booking.service.name + ' per ' + booking.client.firstName + ' ' + booking.client.lastName}"
+                              ></p>
+                            </div>
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                Chiudi
+                              </button>
+                              <form
+                                th:action="@{/bookings/{id}/complete(id=${booking.id})}"
+                                method="post"
+                              >
+                                <button type="submit" class="btn btn-success">
+                                  Completa
+                                </button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="p-4 text-center"
+              th:if="${todayBookings == null || todayBookings.isEmpty()}"
+            >
+              <p class="text-muted mb-0">Non hai appuntamenti per oggi.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prenotazioni in attesa -->
+        <h4 class="mb-3">
+          <i class="fas fa-clock me-2"></i>
+          Prenotazioni da confermare
+        </h4>
+
+        <div
+          class="table-responsive mb-5"
+          th:if="${pendingBookings != null && !pendingBookings.isEmpty()}"
+        >
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Data</th>
+                <th scope="col">Ora</th>
+                <th scope="col">Servizio</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="text-end">Azioni</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="booking : ${pendingBookings}">
+                <td th:text="${booking.getFormattedDate()}">10/05/2023</td>
+                <td th:text="${booking.getFormattedTime()}">14:30 - 15:30</td>
+                <td th:text="${booking.service.name}">
+                  Consulenza Web Marketing
+                </td>
+                <td
+                  th:text="${booking.client.firstName + ' ' + booking.client.lastName}"
+                >
+                  Luigi Verdi
+                </td>
+                <td>
+                  <span class="badge bg-warning">In attesa</span>
+                </td>
+                <td class="text-end">
+                  <a
+                    th:href="@{/bookings/{id}(id=${booking.id})}"
+                    class="btn btn-sm btn-primary"
+                  >
+                    <i class="fas fa-info-circle"></i>
+                  </a>
+                  <button
+                    class="btn btn-sm btn-success"
+                    data-bs-toggle="modal"
+                    th:data-bs-target="'#confirmModal' + ${booking.id}"
+                  >
+                    <i class="fas fa-check"></i>
+                  </button>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    th:data-bs-target="'#cancelModal' + ${booking.id}"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+
+                  <!-- Modal per Confermare -->
+                  <div
+                    class="modal fade"
+                    th:id="'confirmModal' + ${booking.id}"
+                    tabindex="-1"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Conferma Prenotazione</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>
+                            Sei sicuro di voler confermare questa prenotazione?
+                          </p>
+                          <p
+                            class="fw-bold"
+                            th:text="${booking.service.name + ' per ' + booking.client.firstName + ' ' + booking.client.lastName}"
+                          ></p>
+                          <p
+                            th:text="${booking.getFormattedDate() + ' ' + booking.getFormattedTime()}"
+                          ></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Chiudi
+                          </button>
+                          <form
+                            th:action="@{/bookings/{id}/confirm(id=${booking.id})}"
+                            method="post"
+                          >
+                            <button type="submit" class="btn btn-success">
+                              Conferma
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Modal per Cancellare -->
+                  <div
+                    class="modal fade"
+                    th:id="'cancelModal' + ${booking.id}"
+                    tabindex="-1"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Rifiuta Prenotazione</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>
+                            Sei sicuro di voler rifiutare questa prenotazione?
+                          </p>
+                          <p
+                            class="fw-bold"
+                            th:text="${booking.service.name + ' per ' + booking.client.firstName + ' ' + booking.client.lastName}"
+                          ></p>
+                          <p
+                            th:text="${booking.getFormattedDate() + ' ' + booking.getFormattedTime()}"
+                          ></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Chiudi
+                          </button>
+                          <form
+                            th:action="@{/bookings/{id}/cancel(id=${booking.id})}"
+                            method="post"
+                          >
+                            <button type="submit" class="btn btn-danger">
+                              Rifiuta
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          class="alert alert-info"
+          th:if="${pendingBookings == null || pendingBookings.isEmpty()}"
+        >
+          <i class="fas fa-info-circle me-2"></i>
+          Non hai prenotazioni in attesa di conferma.
+        </div>
+
+        <!-- Gestione servizi offerti -->
+        <div class="card mb-5">
+          <div class="card-header bg-info text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">
+                <i class="fas fa-briefcase me-2"></i>
+                I tuoi servizi
+              </h5>
+              <a th:href="@{/provider/profile}" class="btn btn-sm btn-light">
+                <i class="fas fa-edit me-2"></i>Gestisci
+              </a>
+            </div>
+          </div>
+          <div
+            class="card-body p-0"
+            th:if="${provider != null && provider.services != null && !provider.services.isEmpty()}"
+          >
+            <ul class="list-group list-group-flush">
+              <li
+                class="list-group-item"
+                th:each="service : ${provider.services}"
+              >
+                <div class="d-flex justify-content-between align-items-center">
+                  <span th:text="${service.name}"
+                    >Consulenza Web Marketing</span
+                  >
+                  <span
+                    class="badge bg-primary"
+                    th:text="${service.formattedPrice}"
+                    >€ 50,00</span
+                  >
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div
+            class="card-body text-center"
+            th:if="${provider == null || provider.services == null || provider.services.isEmpty()}"
+          >
+            <p class="text-muted mb-3">
+              Non hai ancora aggiunto servizi al tuo profilo.
+            </p>
+            <a th:href="@{/provider/profile}" class="btn btn-primary">
+              <i class="fas fa-plus me-2"></i>Aggiungi Servizi
+            </a>
+          </div>
+        </div>
+
+        <!-- Gestione disponibilità -->
+        <div class="card">
+          <div class="card-header bg-success text-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="mb-0">
+                <i class="fas fa-calendar-alt me-2"></i>
+                La tua disponibilità
+              </h5>
+              <div>
+                <a
+                  th:href="@{/availability/calendar}"
+                  class="btn btn-sm btn-light me-1"
+                >
+                  <i class="far fa-calendar-alt me-2"></i>Calendario
+                </a>
+                <a
+                  th:href="@{/availability/create}"
+                  class="btn btn-sm btn-light"
+                >
+                  <i class="fas fa-plus me-2"></i>Crea
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-4">
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <h6 class="mb-3">Prossima settimana</h6>
+                <div
+                  class="text-center"
+                  th:if="${availableSlots == null || availableSlots.isEmpty()}"
+                >
+                  <p class="text-muted">
+                    Non hai ancora configurato la tua disponibilità.
+                  </p>
+                  <a th:href="@{/availability/create}" class="btn btn-success">
+                    <i class="fas fa-plus me-2"></i>Configura Ora
+                  </a>
+                </div>
+                <div
+                  th:if="${availableSlots != null && !availableSlots.isEmpty()}"
+                >
+                  <ul class="list-group">
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-center"
+                      th:each="day : ${nextWeekDays}"
+                      th:with="daySlots=${availableSlotsPerDay.get(day)}"
+                    >
+                      <span th:text="${#temporals.format(day, 'EEE dd/MM')}"
+                        >Lun 10/05</span
+                      >
+                      <span
+                        class="badge bg-primary rounded-pill"
+                        th:text="${daySlots != null ? daySlots.size() : 0} + ' slot'"
+                        >4 slot</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <h6 class="mb-3">Orari di apertura</h6>
+                <div
+                  th:if="${provider != null && provider.workingHours != null && !provider.workingHours.isEmpty()}"
+                >
+                  <div class="table-responsive">
+                    <table class="table table-sm">
+                      <tbody>
+                        <tr th:each="entry : ${provider.workingHours}">
+                          <th th:text="${entry.key}">Lunedì</th>
+                          <td th:text="${entry.value}">09:00 - 18:00</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="text-end mt-2">
+                    <a
+                      th:href="@{/provider/profile}"
+                      class="btn btn-sm btn-outline-secondary"
+                    >
+                      <i class="fas fa-edit me-1"></i>Modifica
+                    </a>
+                  </div>
+                </div>
+                <div
+                  class="text-center"
+                  th:if="${provider == null || provider.workingHours == null || provider.workingHours.isEmpty()}"
+                >
+                  <p class="text-muted">
+                    Non hai ancora configurato i tuoi orari di lavoro.
+                  </p>
+                  <a
+                    th:href="@{/provider/profile}"
+                    class="btn btn-outline-secondary"
+                  >
+                    <i class="fas fa-clock me-2"></i>Configura Orari
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout('Home', ~{::section})}"
+>
+  <body>
+    <section>
+      <!-- Hero Section -->
+      <div class="container-fluid p-0">
+        <div class="bg-primary text-white py-5 shadow-sm hero-section">
+          <div class="container py-4">
+            <div class="row align-items-center">
+              <div class="col-md-6 mb-4 mb-md-0">
+                <h1 class="display-4 fw-bold mb-3">
+                  Prenota Servizi in Pochi Click
+                </h1>
+                <p class="lead mb-4">
+                  TakeYourService ti aiuta a trovare e prenotare servizi
+                  professionali vicino a te in modo semplice e veloce.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                  <a th:href="@{/services}" class="btn btn-light btn-lg">
+                    <i class="fas fa-search me-2"></i>Sfoglia Servizi
+                  </a>
+                  <a
+                    th:href="@{/register}"
+                    class="btn btn-outline-light btn-lg"
+                  >
+                    <i class="fas fa-user-plus me-2"></i>Registrati
+                  </a>
+                </div>
+              </div>
+              <div class="col-md-6 text-center">
+                <img
+                  th:src="@{/images/hero-image.svg}"
+                  class="img-fluid"
+                  alt="TakeYourService"
+                  style="max-height: 400px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sezione Cerca Servizi -->
+      <div class="container py-5">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body p-4">
+            <h4 class="text-center mb-4">
+              <i class="fas fa-search me-2"></i>Cerca Servizi
+            </h4>
+            <form th:action="@{/services}" method="get">
+              <div class="row g-3">
+                <div class="col-md-5">
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">
+                      <i class="fas fa-briefcase"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="keyword"
+                      placeholder="Cosa stai cercando?"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">
+                      <i class="fas fa-tag"></i>
+                    </span>
+                    <select class="form-select" name="category">
+                      <option value="" selected>Tutte le categorie</option>
+                      <option value="consulting">Consulenze</option>
+                      <option value="health">Salute e Benessere</option>
+                      <option value="beauty">Bellezza</option>
+                      <option value="education">Formazione</option>
+                      <option value="tech">Tecnologia</option>
+                      <option value="home">Casa</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="input-group">
+                    <span class="input-group-text bg-light">
+                      <i class="fas fa-map-marker-alt"></i>
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="location"
+                      placeholder="Città o CAP"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categorie di Servizi -->
+      <div class="container py-5">
+        <div class="text-center mb-5">
+          <h2 class="fw-bold">Esplora le Categorie</h2>
+          <p class="text-muted">
+            Trova il servizio più adatto alle tue esigenze
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-6 col-md-4 col-lg-2">
+            <a
+              th:href="@{/services?category=consulting}"
+              class="text-decoration-none"
+            >
+              <div class="card border-0 text-center h-100 shadow-sm hover-card">
+                <div class="card-body p-4">
+                  <div
+                    class="rounded-circle bg-primary bg-opacity-10 p-3 mx-auto mb-3"
+                    style="width: 65px; height: 65px"
+                  >
+                    <i class="fas fa-briefcase text-primary fa-2x"></i>
+                  </div>
+                  <h6 class="card-title">Consulenze</h6>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <a
+              th:href="@{/services?category=health}"
+              class="text-decoration-none"
+            >
+              <div class="card border-0 text-center h-100 shadow-sm hover-card">
+                <div class="card-body p-4">
+                  <div
+                    class="rounded-circle bg-success bg-opacity-10 p-3 mx-auto mb-3"
+                    style="width: 65px; height: 65px"
+                  >
+                    <i class="fas fa-heartbeat text-success fa-2x"></i>
+                  </div>
+                  <h6 class="card-title">Salute</h6>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <a
+              th:href="@{/services?category=beauty}"
+              class="text-decoration-none"
+            >
+              <div class="card border-0 text-center h-100 shadow-sm hover-card">
+                <div class="card-body p-4">
+                  <div
+                    class="rounded-circle bg-info bg-opacity-10 p-3 mx-auto mb-3"
+                    style="width: 65px; height: 65px"
+                  >
+                    <i class="fas fa-spa text-info fa-2x"></i>
+                  </div>
+                  <h6 class="card-title">Bellezza</h6>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <a
+              th:href="@{/services?category=education}"
+              class="text-decoration-none"
+            >
+              <div class="card border-0 text-center h-100 shadow-sm hover-card">
+                <div class="card-body p-4">
+                  <div
+                    class="rounded-circle bg-warning bg-opacity-10 p-3 mx-auto mb-3"
+                    style="width: 65px; height: 65px"
+                  >
+                    <i class="fas fa-graduation-cap text-warning fa-2x"></i>
+                  </div>
+                  <h6 class="card-title">Formazione</h6>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <a
+              th:href="@{/services?category=tech}"
+              class="text-decoration-none"
+            >
+              <div class="card border-0 text-center h-100 shadow-sm hover-card">
+                <div class="card-body p-4">
+                  <div
+                    class="rounded-circle bg-danger bg-opacity-10 p-3 mx-auto mb-3"
+                    style="width: 65px; height: 65px"
+                  >
+                    <i class="fas fa-laptop text-danger fa-2x"></i>
+                  </div>
+                  <h6 class="card-title">Tecnologia</h6>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-6 col-md-4 col-lg-2">
+            <a
+              th:href="@{/services?category=home}"
+              class="text-decoration-none"
+            >
+              <div class="card border-0 text-center h-100 shadow-sm hover-card">
+                <div class="card-body p-4">
+                  <div
+                    class="rounded-circle bg-secondary bg-opacity-10 p-3 mx-auto mb-3"
+                    style="width: 65px; height: 65px"
+                  >
+                    <i class="fas fa-home text-secondary fa-2x"></i>
+                  </div>
+                  <h6 class="card-title">Casa</h6>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Servizi in Evidenza -->
+      <div class="container py-5">
+        <div class="text-center mb-5">
+          <h2 class="fw-bold">Servizi in Evidenza</h2>
+          <p class="text-muted">
+            I servizi più richiesti sulla nostra piattaforma
+          </p>
+        </div>
+
+        <div
+          class="row g-4"
+          th:if="${featuredServices != null && !featuredServices.isEmpty()}"
+        >
+          <div
+            class="col-md-6 col-lg-3"
+            th:each="service : ${featuredServices}"
+          >
+            <div class="card border-0 shadow-sm h-100">
+              <div class="position-relative">
+                <img
+                  th:src="${service.imageUrl != null ? service.imageUrl : '/images/service-placeholder.jpg'}"
+                  class="card-img-top"
+                  alt="Service Image"
+                  style="height: 160px; object-fit: cover"
+                />
+                <span
+                  class="badge bg-primary position-absolute top-0 end-0 m-2"
+                >
+                  In evidenza
+                </span>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title" th:text="${service.name}">
+                  Nome Servizio
+                </h5>
+                <p
+                  class="card-text small text-muted mb-2"
+                  th:text="${#strings.abbreviate(service.description, 100)}"
+                >
+                  Breve descrizione del servizio...
+                </p>
+                <div class="d-flex align-items-center mb-3">
+                  <div class="me-auto">
+                    <span class="badge bg-light text-dark">
+                      <i class="fas fa-tag me-1"></i>
+                      <span th:text="${service.category}">Categoria</span>
+                    </span>
+                  </div>
+                  <span
+                    class="text-primary fw-bold"
+                    th:text="${service.formattedPrice}"
+                    >€50,00</span
+                  >
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="me-auto">
+                    <small class="text-muted">
+                      <i class="fas fa-user-tie me-1"></i>
+                      <span
+                        th:text="${service.provider.firstName + ' ' + service.provider.lastName}"
+                        >Nome Fornitore</span
+                      >
+                    </small>
+                  </div>
+                  <a
+                    th:href="@{/services/{id}(id=${service.id})}"
+                    class="btn btn-sm btn-outline-primary"
+                  >
+                    Dettagli
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Placeholder se non ci sono servizi in evidenza -->
+        <div
+          class="alert alert-info text-center"
+          th:if="${featuredServices == null || featuredServices.isEmpty()}"
+        >
+          <i class="fas fa-info-circle me-2"></i>
+          Al momento non ci sono servizi in evidenza. Esplora tutte le categorie
+          disponibili.
+        </div>
+
+        <div class="text-center mt-4">
+          <a th:href="@{/services}" class="btn btn-outline-primary">
+            <i class="fas fa-list me-2"></i>Vedi tutti i servizi
+          </a>
+        </div>
+      </div>
+
+      <!-- Come Funziona -->
+      <div class="bg-light py-5">
+        <div class="container py-3">
+          <div class="text-center mb-5">
+            <h2 class="fw-bold">Come Funziona</h2>
+            <p class="text-muted">Prenota servizi in modo semplice e veloce</p>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-md-3">
+              <div class="card border-0 bg-transparent text-center h-100">
+                <div class="card-body">
+                  <div
+                    class="rounded-circle bg-primary text-white p-4 mx-auto mb-3"
+                    style="width: 80px; height: 80px"
+                  >
+                    <i class="fas fa-search fa-2x"></i>
+                  </div>
+                  <h5 class="card-title mb-3">Cerca</h5>
+                  <p class="card-text text-muted">
+                    Trova il servizio che ti serve utilizzando i filtri di
+                    ricerca o navigando per categorie.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card border-0 bg-transparent text-center h-100">
+                <div class="card-body">
+                  <div
+                    class="rounded-circle bg-primary text-white p-4 mx-auto mb-3"
+                    style="width: 80px; height: 80px"
+                  >
+                    <i class="fas fa-calendar-alt fa-2x"></i>
+                  </div>
+                  <h5 class="card-title mb-3">Prenota</h5>
+                  <p class="card-text text-muted">
+                    Seleziona data e ora disponibili e prenota il tuo
+                    appuntamento in pochi click.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card border-0 bg-transparent text-center h-100">
+                <div class="card-body">
+                  <div
+                    class="rounded-circle bg-primary text-white p-4 mx-auto mb-3"
+                    style="width: 80px; height: 80px"
+                  >
+                    <i class="fas fa-check-circle fa-2x"></i>
+                  </div>
+                  <h5 class="card-title mb-3">Conferma</h5>
+                  <p class="card-text text-muted">
+                    Ricevi la conferma dell'appuntamento e un promemoria prima
+                    del servizio.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="card border-0 bg-transparent text-center h-100">
+                <div class="card-body">
+                  <div
+                    class="rounded-circle bg-primary text-white p-4 mx-auto mb-3"
+                    style="width: 80px; height: 80px"
+                  >
+                    <i class="fas fa-star fa-2x"></i>
+                  </div>
+                  <h5 class="card-title mb-3">Recensisci</h5>
+                  <p class="card-text text-muted">
+                    Dopo aver usufruito del servizio, condividi la tua
+                    esperienza con altri utenti.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA Fornitori -->
+      <div class="container py-5">
+        <div class="row align-items-center">
+          <div class="col-md-6 mb-4 mb-md-0">
+            <h2 class="fw-bold mb-3">Sei un Professionista?</h2>
+            <p class="lead mb-4">
+              Entra a far parte della nostra rete di fornitori di servizi e
+              raggiungi nuovi clienti. TakeYourService ti offre una piattaforma
+              completa per gestire le tue prenotazioni.
+            </p>
+            <ul class="list-unstyled mb-4">
+              <li class="mb-2">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Gestione appuntamenti semplificata
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Maggiore visibilità online
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Riduci le disdette dell'ultimo minuto
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check-circle text-success me-2"></i>
+                Fai crescere la tua attività
+              </li>
+            </ul>
+            <a
+              th:href="@{/register?role=provider}"
+              class="btn btn-primary btn-lg"
+            >
+              <i class="fas fa-user-tie me-2"></i>Diventa un Fornitore
+            </a>
+          </div>
+          <div class="col-md-6 text-center">
+            <img
+              th:src="@{/images/provider-illustration.svg}"
+              class="img-fluid"
+              alt="Provider"
+              style="max-height: 350px"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Recensioni -->
+      <div class="bg-light py-5">
+        <div class="container py-3">
+          <div class="text-center mb-5">
+            <h2 class="fw-bold">Cosa Dicono i Nostri Utenti</h2>
+            <p class="text-muted">
+              Leggi le recensioni di chi ha utilizzato TakeYourService
+            </p>
+          </div>
+
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                  <div class="mb-3">
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                  </div>
+                  <p class="card-text mb-4">
+                    "Ottima piattaforma! Ho trovato un consulente finanziario
+                    molto preparato e ho potuto prenotare una sessione in pochi
+                    minuti. Tutto il processo è stato semplice e intuitivo."
+                  </p>
+                  <div class="d-flex align-items-center">
+                    <div
+                      class="rounded-circle bg-primary text-white p-3 me-3"
+                      style="width: 48px; height: 48px"
+                    >
+                      <span class="fw-bold">MR</span>
+                    </div>
+                    <div>
+                      <h6 class="mb-0">Marco Rossi</h6>
+                      <p class="text-muted small mb-0">Cliente</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                  <div class="mb-3">
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                  </div>
+                  <p class="card-text mb-4">
+                    "Da quando mi sono registrata come fisioterapista su
+                    TakeYourService, ho notato un incremento di clienti e una
+                    migliore organizzazione del mio tempo. La gestione delle
+                    disponibilità è davvero efficiente!"
+                  </p>
+                  <div class="d-flex align-items-center">
+                    <div
+                      class="rounded-circle bg-success text-white p-3 me-3"
+                      style="width: 48px; height: 48px"
+                    >
+                      <span class="fw-bold">LB</span>
+                    </div>
+                    <div>
+                      <h6 class="mb-0">Laura Bianchi</h6>
+                      <p class="text-muted small mb-0">Fornitore</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                  <div class="mb-3">
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star text-warning"></i>
+                    <i class="fas fa-star-half-alt text-warning"></i>
+                  </div>
+                  <p class="card-text mb-4">
+                    "Ho utilizzato TakeYourService per prenotare un corso di
+                    formazione. Il sistema di ricerca mi ha permesso di trovare
+                    rapidamente ciò che cercavo e confrontare diverse opzioni.
+                    Davvero comodo!"
+                  </p>
+                  <div class="d-flex align-items-center">
+                    <div
+                      class="rounded-circle bg-warning text-white p-3 me-3"
+                      style="width: 48px; height: 48px"
+                    >
+                      <span class="fw-bold">GV</span>
+                    </div>
+                    <div>
+                      <h6 class="mb-0">Giovanni Verdi</h6>
+                      <p class="text-muted small mb-0">Cliente</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="container py-5">
+        <div class="card border-0 bg-primary text-white shadow">
+          <div class="card-body p-5">
+            <div class="row align-items-center">
+              <div class="col-md-7 mb-4 mb-md-0">
+                <h3 class="mb-3">Iscriviti alla Newsletter</h3>
+                <p class="mb-0">
+                  Resta aggiornato sulle ultime novità, promozioni e
+                  suggerimenti. Non invieremo spam, promesso!
+                </p>
+              </div>
+              <div class="col-md-5">
+                <form th:action="@{/newsletter/subscribe}" method="post">
+                  <div class="input-group">
+                    <input
+                      type="email"
+                      name="email"
+                      class="form-control form-control-lg"
+                      placeholder="Il tuo indirizzo email"
+                      required
+                    />
+                    <button class="btn btn-light" type="submit">
+                      Iscriviti
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

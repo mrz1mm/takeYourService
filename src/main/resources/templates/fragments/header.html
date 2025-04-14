@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+  <body>
+    <header th:fragment="header">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+          <a class="navbar-brand" th:href="@{/}">
+            <i class="fas fa-calendar-check me-2"></i>TakeYourService
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/}"
+                  th:classappend="${#request.requestURI == '/' ? 'active' : ''}"
+                >
+                  <i class="fas fa-home me-1"></i>Home
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/services}"
+                  th:classappend="${#request.requestURI.startsWith('/service') ? 'active' : ''}"
+                >
+                  <i class="fas fa-briefcase me-1"></i>Servizi
+                </a>
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/providers}"
+                  th:classappend="${#request.requestURI.startsWith('/provider') && !#request.requestURI.startsWith('/provider/profile') ? 'active' : ''}"
+                >
+                  <i class="fas fa-user-tie me-1"></i>Fornitori
+                </a>
+              </li>
+              <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a
+                  class="nav-link"
+                  th:href="@{/bookings}"
+                  th:classappend="${#request.requestURI.startsWith('/booking') ? 'active' : ''}"
+                >
+                  <i class="fas fa-calendar me-1"></i>Prenotazioni
+                </a>
+              </li>
+            </ul>
+
+            <!-- Menu utente non autenticato -->
+            <ul
+              class="navbar-nav ms-auto mb-2 mb-lg-0"
+              sec:authorize="!isAuthenticated()"
+            >
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/login}">
+                  <i class="fas fa-sign-in-alt me-1"></i>Accedi
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" th:href="@{/register}">
+                  <i class="fas fa-user-plus me-1"></i>Registrati
+                </a>
+              </li>
+            </ul>
+
+            <!-- Menu utente autenticato -->
+            <ul
+              class="navbar-nav ms-auto mb-2 mb-lg-0"
+              sec:authorize="isAuthenticated()"
+            >
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  th:href="@{/dashboard}"
+                  th:classappend="${#request.requestURI.startsWith('/dashboard') ? 'active' : ''}"
+                >
+                  <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                </a>
+              </li>
+
+              <!-- Dropdown menu utente -->
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                >
+                  <i class="fas fa-user-circle me-1"></i>
+                  <span sec:authentication="name">Username</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <!-- Menu per i clienti -->
+                  <li sec:authorize="hasRole('ROLE_CLIENT')">
+                    <a class="dropdown-item" th:href="@{/profile}">
+                      <i class="fas fa-user me-2"></i>Profilo
+                    </a>
+                  </li>
+
+                  <!-- Menu per i fornitori di servizi -->
+                  <li sec:authorize="hasRole('ROLE_PROVIDER')">
+                    <a class="dropdown-item" th:href="@{/provider/profile}">
+                      <i class="fas fa-id-card me-2"></i>Profilo Fornitore
+                    </a>
+                  </li>
+                  <li sec:authorize="hasRole('ROLE_PROVIDER')">
+                    <a class="dropdown-item" th:href="@{/services/manage}">
+                      <i class="fas fa-briefcase me-2"></i>I Miei Servizi
+                    </a>
+                  </li>
+                  <li sec:authorize="hasRole('ROLE_PROVIDER')">
+                    <a
+                      class="dropdown-item"
+                      th:href="@{/availability/calendar}"
+                    >
+                      <i class="fas fa-calendar-alt me-2"></i>Disponibilità
+                    </a>
+                  </li>
+
+                  <!-- Menu per gli amministratori -->
+                  <li sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="dropdown-item" th:href="@{/admin}">
+                      <i class="fas fa-cog me-2"></i>Amministrazione
+                    </a>
+                  </li>
+
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                      <button type="submit" class="dropdown-item">
+                        <i class="fas fa-sign-out-alt me-2"></i>Esci
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+  </body>
+</html>

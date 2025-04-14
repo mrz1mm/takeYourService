@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <!-- Footer -->
+    <footer class="footer bg-light mt-auto py-4" th:fragment="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4 mb-md-0">
+            <h5 class="text-primary">TakeYourService</h5>
+            <p class="text-muted small">
+              La piattaforma che semplifica la prenotazione di servizi. Connetti
+              clienti e fornitori in un unico posto.
+            </p>
+            <div class="d-flex gap-2">
+              <a href="#" class="btn btn-sm btn-outline-secondary">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="btn btn-sm btn-outline-secondary">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="btn btn-sm btn-outline-secondary">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" class="btn btn-sm btn-outline-secondary">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-md-3 mb-4 mb-md-0">
+            <h6 class="text-uppercase fw-bold mb-3">Navigazione</h6>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-1">
+                <a th:href="@{/}" class="text-decoration-none text-muted">
+                  <i class="fas fa-angle-right me-1 small"></i>Home
+                </a>
+              </li>
+              <li class="mb-1">
+                <a
+                  th:href="@{/services}"
+                  class="text-decoration-none text-muted"
+                >
+                  <i class="fas fa-angle-right me-1 small"></i>Servizi
+                </a>
+              </li>
+              <li class="mb-1">
+                <a
+                  th:href="@{/providers}"
+                  class="text-decoration-none text-muted"
+                >
+                  <i class="fas fa-angle-right me-1 small"></i>Fornitori
+                </a>
+              </li>
+              <li class="mb-1">
+                <a th:href="@{/about}" class="text-decoration-none text-muted">
+                  <i class="fas fa-angle-right me-1 small"></i>Chi Siamo
+                </a>
+              </li>
+              <li class="mb-1">
+                <a
+                  th:href="@{/contact}"
+                  class="text-decoration-none text-muted"
+                >
+                  <i class="fas fa-angle-right me-1 small"></i>Contatti
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-2 mb-4 mb-md-0">
+            <h6 class="text-uppercase fw-bold mb-3">Servizi</h6>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-1">
+                <a
+                  th:href="@{/services?category=consulting}"
+                  class="text-decoration-none text-muted"
+                >
+                  <i class="fas fa-angle-right me-1 small"></i>Consulenze
+                </a>
+              </li>
+              <li class="mb-1">
+                <a
+                  th:href="@{/services?category=health}"
+                  class="text-decoration-none text-muted"
+                >
+                  <i class="fas fa-angle-right me-1 small"></i>Salute
+                </a>
+              </li>
+              <li class="mb-1">
+                <a
+                  th:href="@{/services?category=beauty}"
+                  class="text-decoration-none text-muted"
+                >
+                  <i class="fas fa-angle-right me-1 small"></i>Bellezza
+                </a>
+              </li>
+              <li class="mb-1">
+                <a
+                  th:href="@{/services?category=education}"
+                  class="text-decoration-none text-muted"
+                >
+                  <i class="fas fa-angle-right me-1 small"></i>Formazione
+                </a>
+              </li>
+              <li class="mb-1">
+                <a
+                  th:href="@{/services}"
+                  class="text-decoration-none text-muted"
+                >
+                  <i class="fas fa-angle-right me-1 small"></i>Tutti i Servizi
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-3">
+            <h6 class="text-uppercase fw-bold mb-3">Contatti</h6>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-1 text-muted">
+                <i class="fas fa-map-marker-alt me-2"></i>Via Roma 123, Milano
+              </li>
+              <li class="mb-1 text-muted">
+                <i class="fas fa-envelope me-2"></i>info@takeyourservice.it
+              </li>
+              <li class="mb-1 text-muted">
+                <i class="fas fa-phone me-2"></i>+39 02 1234567
+              </li>
+              <li class="mb-1 text-muted">
+                <i class="fas fa-clock me-2"></i>Lun-Ven: 9:00-18:00
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="row">
+          <div class="col-md-6 text-center text-md-start">
+            <p class="text-muted small mb-0">
+              &copy; 2025 TakeYourService. Tutti i diritti riservati.
+            </p>
+          </div>
+          <div class="col-md-6 text-center text-md-end">
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item">
+                <a href="#" class="text-muted small text-decoration-none"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li class="list-inline-item">
+                <span class="text-muted">|</span>
+              </li>
+              <li class="list-inline-item">
+                <a href="#" class="text-muted small text-decoration-none"
+                  >Termini di Servizio</a
+                >
+              </li>
+              <li class="list-inline-item">
+                <span class="text-muted">|</span>
+              </li>
+              <li class="list-inline-item">
+                <a href="#" class="text-muted small text-decoration-none"
+                  >Cookie Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

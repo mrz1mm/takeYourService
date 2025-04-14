@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout('Registrati', ~{::section})}"
+>
+  <body>
+    <section>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+              <div class="card-header bg-primary text-white text-center py-3">
+                <h4 class="mb-0">
+                  <i class="fas fa-user-plus me-2"></i>Registrati
+                </h4>
+              </div>
+              <div class="card-body p-4">
+                <!-- Messaggi -->
+                <div class="alert alert-danger mb-4" th:if="${error}">
+                  <i class="fas fa-exclamation-circle me-2"></i>
+                  <span th:text="${error}"
+                    >Si è verificato un errore durante la registrazione.</span
+                  >
+                </div>
+
+                <!-- Form di registrazione -->
+                <form
+                  th:action="@{/register}"
+                  method="post"
+                  th:object="${userDto}"
+                >
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="firstName" class="form-label">Nome *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        th:field="*{firstName}"
+                        required
+                      />
+                      <div
+                        class="text-danger"
+                        th:if="${#fields.hasErrors('firstName')}"
+                        th:errors="*{firstName}"
+                      ></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label for="lastName" class="form-label">Cognome *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        th:field="*{lastName}"
+                        required
+                      />
+                      <div
+                        class="text-danger"
+                        th:if="${#fields.hasErrors('lastName')}"
+                        th:errors="*{lastName}"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email *</label>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <i class="fas fa-envelope"></i>
+                      </span>
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        th:field="*{email}"
+                        required
+                      />
+                    </div>
+                    <div
+                      class="text-danger"
+                      th:if="${#fields.hasErrors('email')}"
+                      th:errors="*{email}"
+                    ></div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="username" class="form-label">Username *</label>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <i class="fas fa-user"></i>
+                      </span>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        th:field="*{username}"
+                        required
+                      />
+                    </div>
+                    <div
+                      class="text-danger"
+                      th:if="${#fields.hasErrors('username')}"
+                      th:errors="*{username}"
+                    ></div>
+                    <small class="form-text text-muted"
+                      >Il username deve contenere almeno 5 caratteri.</small
+                    >
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="password" class="form-label"
+                        >Password *</label
+                      >
+                      <div class="input-group">
+                        <span class="input-group-text">
+                          <i class="fas fa-lock"></i>
+                        </span>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="password"
+                          th:field="*{password}"
+                          required
+                        />
+                      </div>
+                      <div
+                        class="text-danger"
+                        th:if="${#fields.hasErrors('password')}"
+                        th:errors="*{password}"
+                      ></div>
+                      <small class="form-text text-muted"
+                        >La password deve contenere almeno 8 caratteri, inclusi
+                        numeri e lettere.</small
+                      >
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label for="confirmPassword" class="form-label"
+                        >Conferma Password *</label
+                      >
+                      <div class="input-group">
+                        <span class="input-group-text">
+                          <i class="fas fa-lock"></i>
+                        </span>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="confirmPassword"
+                          th:field="*{confirmPassword}"
+                          required
+                        />
+                      </div>
+                      <div
+                        class="text-danger"
+                        th:if="${#fields.hasErrors('confirmPassword')}"
+                        th:errors="*{confirmPassword}"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="phoneNumber" class="form-label"
+                      >Numero di Telefono</label
+                    >
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <i class="fas fa-phone"></i>
+                      </span>
+                      <input
+                        type="tel"
+                        class="form-control"
+                        id="phoneNumber"
+                        th:field="*{phoneNumber}"
+                      />
+                    </div>
+                    <div
+                      class="text-danger"
+                      th:if="${#fields.hasErrors('phoneNumber')}"
+                      th:errors="*{phoneNumber}"
+                    ></div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="provider"
+                        th:field="*{providerRole}"
+                      />
+                      <label class="form-check-label" for="provider"
+                        >Registrami come fornitore di servizi</label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <div class="form-check">
+                      <input
+                        type="checkbox"
+                        class="form-check-input"
+                        id="terms"
+                        name="terms"
+                        required
+                      />
+                      <label class="form-check-label" for="terms">
+                        Accetto i
+                        <a href="#" target="_blank">Termini di Servizio</a> e
+                        <a href="#" target="_blank">Privacy Policy</a>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fas fa-user-plus me-2"></i>Registrati
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="card-footer bg-light text-center py-3">
+                <div>
+                  Hai già un account?
+                  <a th:href="@{/login}" class="text-decoration-none">Accedi</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

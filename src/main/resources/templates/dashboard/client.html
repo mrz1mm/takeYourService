@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout('Dashboard Cliente', ~{::section})}"
+>
+  <body>
+    <section>
+      <div class="container">
+        <!-- Intestazione della pagina -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>
+            <i class="fas fa-tachometer-alt me-2"></i>
+            Dashboard Cliente
+          </h2>
+          <div>
+            <a th:href="@{/services}" class="btn btn-primary">
+              <i class="fas fa-search me-2"></i>Cerca Servizi
+            </a>
+          </div>
+        </div>
+
+        <!-- Riepilogo -->
+        <div class="row g-4 mb-5">
+          <div class="col-md-4">
+            <div class="card border-primary h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rounded-circle bg-primary text-white p-3 me-3">
+                    <i class="fas fa-calendar-check"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-0">Prenotazioni In Arrivo</h5>
+                  </div>
+                </div>
+                <p
+                  class="display-4 fw-bold"
+                  th:text="${upcomingBookings != null ? upcomingBookings.size() : 0}"
+                >
+                  3
+                </p>
+                <p class="card-text text-muted mb-0">
+                  Prenotazioni confermate future
+                </p>
+                <a
+                  th:href="@{/bookings?tab=upcoming}"
+                  class="btn btn-sm btn-outline-primary mt-3"
+                  >Vedi Dettagli</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-warning h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rounded-circle bg-warning text-white p-3 me-3">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-0">In Attesa</h5>
+                  </div>
+                </div>
+                <p
+                  class="display-4 fw-bold"
+                  th:text="${pendingBookings != null ? pendingBookings.size() : 0}"
+                >
+                  1
+                </p>
+                <p class="card-text text-muted mb-0">
+                  Prenotazioni in attesa di conferma
+                </p>
+                <a
+                  th:href="@{/bookings?tab=pending}"
+                  class="btn btn-sm btn-outline-warning mt-3"
+                  >Vedi Dettagli</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-success h-100">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rounded-circle bg-success text-white p-3 me-3">
+                    <i class="fas fa-check-double"></i>
+                  </div>
+                  <div>
+                    <h5 class="card-title mb-0">Completate</h5>
+                  </div>
+                </div>
+                <p
+                  class="display-4 fw-bold"
+                  th:text="${completedBookings != null ? completedBookings.size() : 0}"
+                >
+                  0
+                </p>
+                <p class="card-text text-muted mb-0">
+                  Servizi completati da recensire
+                </p>
+                <a
+                  th:href="@{/bookings?tab=completed}"
+                  class="btn btn-sm btn-outline-success mt-3"
+                  >Vedi Dettagli</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prossima prenotazione -->
+        <div
+          class="card mb-5"
+          th:if="${upcomingBookings != null && !upcomingBookings.isEmpty()}"
+        >
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+              <i class="fas fa-calendar-day me-2"></i>
+              Prossimo Appuntamento
+            </h5>
+          </div>
+          <div class="card-body" th:with="nextBooking=${upcomingBookings[0]}">
+            <div class="row">
+              <div class="col-md-3 mb-3 mb-md-0">
+                <p class="mb-1 text-muted">Data e Ora</p>
+                <p class="fw-bold">
+                  <i class="far fa-calendar-alt me-2"></i>
+                  <span th:text="${nextBooking.getFormattedDate()}"
+                    >10/05/2023</span
+                  >
+                  <br />
+                  <i class="far fa-clock me-2"></i>
+                  <span th:text="${nextBooking.getFormattedTime()}"
+                    >14:30 - 15:30</span
+                  >
+                </p>
+              </div>
+              <div class="col-md-3 mb-3 mb-md-0">
+                <p class="mb-1 text-muted">Servizio</p>
+                <p class="fw-bold" th:text="${nextBooking.service.name}">
+                  Consulenza Web Marketing
+                </p>
+              </div>
+              <div class="col-md-3 mb-3 mb-md-0">
+                <p class="mb-1 text-muted">Fornitore</p>
+                <p class="fw-bold" th:text="${nextBooking.provider.name}">
+                  Mario Rossi
+                </p>
+              </div>
+              <div class="col-md-3 text-md-end">
+                <a
+                  th:href="@{/bookings/{id}(id=${nextBooking.id})}"
+                  class="btn btn-primary"
+                >
+                  <i class="fas fa-info-circle me-2"></i>Dettagli
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prenotazioni in attesa -->
+        <h4 class="mb-3">
+          <i class="fas fa-clock me-2"></i>
+          Prenotazioni in attesa di conferma
+        </h4>
+
+        <div
+          class="table-responsive mb-5"
+          th:if="${pendingBookings != null && !pendingBookings.isEmpty()}"
+        >
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Data</th>
+                <th scope="col">Ora</th>
+                <th scope="col">Servizio</th>
+                <th scope="col">Fornitore</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="text-end">Azioni</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="booking : ${pendingBookings}">
+                <td th:text="${booking.getFormattedDate()}">10/05/2023</td>
+                <td th:text="${booking.getFormattedTime()}">14:30 - 15:30</td>
+                <td th:text="${booking.service.name}">
+                  Consulenza Web Marketing
+                </td>
+                <td th:text="${booking.provider.name}">Mario Rossi</td>
+                <td>
+                  <span class="badge bg-warning">In attesa</span>
+                </td>
+                <td class="text-end">
+                  <a
+                    th:href="@{/bookings/{id}(id=${booking.id})}"
+                    class="btn btn-sm btn-primary"
+                  >
+                    <i class="fas fa-info-circle"></i>
+                  </a>
+                  <button
+                    class="btn btn-sm btn-danger"
+                    data-bs-toggle="modal"
+                    th:data-bs-target="'#cancelModal' + ${booking.id}"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+
+                  <!-- Modal per Cancellare -->
+                  <div
+                    class="modal fade"
+                    th:id="'cancelModal' + ${booking.id}"
+                    tabindex="-1"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Conferma Cancellazione</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>
+                            Sei sicuro di voler cancellare questa prenotazione?
+                          </p>
+                          <p
+                            class="fw-bold"
+                            th:text="${booking.service.name + ' con ' + booking.provider.name}"
+                          ></p>
+                          <p
+                            th:text="${booking.getFormattedDate() + ' ' + booking.getFormattedTime()}"
+                          ></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                          >
+                            Chiudi
+                          </button>
+                          <form
+                            th:action="@{/bookings/{id}/cancel(id=${booking.id})}"
+                            method="post"
+                          >
+                            <button type="submit" class="btn btn-danger">
+                              Cancella
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          class="alert alert-info"
+          th:if="${pendingBookings == null || pendingBookings.isEmpty()}"
+        >
+          <i class="fas fa-info-circle me-2"></i>
+          Non hai prenotazioni in attesa di conferma.
+        </div>
+
+        <!-- Servizi completati da recensire -->
+        <h4 class="mb-3">
+          <i class="fas fa-star me-2"></i>
+          Servizi completati da recensire
+        </h4>
+
+        <div
+          class="row g-4"
+          th:if="${completedBookings != null && !completedBookings.isEmpty()}"
+        >
+          <div
+            class="col-md-6 col-lg-4"
+            th:each="booking : ${completedBookings}"
+          >
+            <div class="card h-100">
+              <div class="card-header bg-success text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span th:text="${booking.getFormattedDate()}"
+                    >10/05/2023</span
+                  >
+                  <span class="badge bg-light text-success">Completato</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title" th:text="${booking.service.name}">
+                  Consulenza Web Marketing
+                </h5>
+                <p class="card-text">
+                  <i class="fas fa-user me-2"></i>
+                  <span th:text="${booking.provider.name}">Mario Rossi</span>
+                </p>
+                <p class="card-text">
+                  <i class="far fa-clock me-2"></i>
+                  <span th:text="${booking.getFormattedTime()}"
+                    >14:30 - 15:30</span
+                  >
+                </p>
+              </div>
+              <div class="card-footer bg-white">
+                <div class="d-grid gap-2">
+                  <a href="#" class="btn btn-outline-warning">
+                    <i class="fas fa-star me-2"></i>Lascia recensione
+                  </a>
+                  <form
+                    th:action="@{/bookings/{id}/reviewed(id=${booking.id})}"
+                    method="post"
+                  >
+                    <button
+                      type="submit"
+                      class="btn btn-sm btn-outline-secondary w-100"
+                    >
+                      <i class="fas fa-check-circle me-2"></i>Segna come
+                      recensito
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="alert alert-info"
+          th:if="${completedBookings == null || completedBookings.isEmpty()}"
+        >
+          <i class="fas fa-info-circle me-2"></i>
+          Non hai servizi completati da recensire.
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
