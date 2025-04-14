@@ -119,7 +119,7 @@ Questo progetto è distribuito con licenza MIT. Vedi il file `LICENSE` per maggi
 
 ## Contatti
 
-Nome - [email@example.com](mailto:email@example.com)
+Simone Attanasio - [s.attanasio@outlook.com](mailto:s.attanasio@outlook.com)
 
 Project Link: [https://github.com/YourUsername/takeYourService](https://github.com/YourUsername/takeYourService)
 
